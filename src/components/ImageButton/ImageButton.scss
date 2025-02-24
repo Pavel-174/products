@@ -1,0 +1,9 @@
+.imageButton {
+    border: none;
+    padding: 0;
+    width: 49px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}

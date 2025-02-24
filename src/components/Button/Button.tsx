@@ -9,7 +9,7 @@ interface ButtonProps {
 function Button({ text, style, func }: ButtonProps) {
   return (
     <button 
-      className={style}
+      className={`button ${style}`}
       onClick={() => func()}
     >
       {text}
