@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProducts, deleteProduct } from '../../api/api';
 import { timestampToDate } from '../../utils/support';
 import { setProducts } from '../../redux/products/products';
+import { setProductInfo } from '../../redux/productInfo/productInfo';
 import './ProductList.scss';
 import bin from '../../images/bin.png';
 import info from '../../images/info.png';
@@ -54,6 +55,11 @@ function ProductList() {
   const handleDelete = async (id: string) => {
     await deleteProduct(id);
     dispatch(setProducts(products.filter((product: { id: string; }) => product.id !== id)));
+  }
+
+  const openEditPage = (product: Product) => {
+    dispatch(setProductInfo(product));
+    navigate(`/edit/${product.id}`);
   }
 
   return (
@@ -103,19 +109,19 @@ function ProductList() {
                         <span>{product.packageType}</span>
                       </td>
                       <td>
-                        <span>{timestampToDate(product.createdAt)}</span>
+                        <span>{timestampToDate(product.createdAt || '')}</span>
                       </td>
                       <td>
                         <span>{product.isArchived === true ? "Архив" : "Активно"}</span>
                       </td>
                       <td>
-                        <ImageButton image={info} alt={'Информация'} func={() => {isTooltipVisible === true ? closeTooltip() : openTooltip(product.id)}} />
+                        <ImageButton image={info} alt={'Информация'} func={() => {isTooltipVisible === true ? closeTooltip() : openTooltip(product.id || '')}} />
                         {(isTooltipVisible === true && id === product.id) && <Tooltip text={product.description ? product.description : 'Нет информации'}/>}
                       </td>
                       <td>
                         <div className='buttonBox'>
-                          <ImageButton image={edit} alt={'Редактировать'} func={() => navigate(`/edit/${product.id}`)} />
-                          <ImageButton image={bin} alt={'Удалить'} func={() => openDeletePopup(product.id)} />
+                          <ImageButton image={edit} alt={'Редактировать'} func={() => openEditPage(product)} />
+                          <ImageButton image={bin} alt={'Удалить'} func={() => openDeletePopup(product.id || '')} />
                           {/*  */}
                         </div>
                       </td>

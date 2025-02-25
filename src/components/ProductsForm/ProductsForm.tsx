@@ -2,6 +2,10 @@
 import { useState } from 'react';
 import Button from '../Button/Button';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { deleteProduct, createProduct } from '../../api/api';
+import { Product } from '../../types/types';
+import Popup from '../Popup/Popup';
 import './ProductsForm.scss'
 
 interface FormProps {
@@ -10,10 +14,37 @@ interface FormProps {
 
 function ProductsForm({ formType } : FormProps) {
   const navigate = useNavigate();
-  const [packsNumber, setPacksNumber] = useState<string>('');
-  const [packageType, setPackageType] = useState<string>('');
-  const [isArchived, setIsArchived] = useState<boolean>(false);
-  const [description, setDescription] = useState<string>('');
+
+  const { productInfo } = useSelector((state: any) => state.productInfo);
+
+  const [packsNumber, setPacksNumber] = useState<number>(formType === 'redact' ? productInfo.packsNumber : '');
+  const [packageType, setPackageType] = useState<string>(formType === 'redact' ? productInfo.packageType : '');
+  const [isArchived, setIsArchived] = useState<boolean>(formType === 'redact' ? productInfo.isArchived : false);
+  const [description, setDescription] = useState<string>(formType === 'redact' ? productInfo.description : '');
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+
+  const handleDelete = async () => {
+    await deleteProduct(productInfo.id);
+    navigate('/');
+  }
+
+  const handlePacksNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    const numberValue = value === '' ? 0 : parseInt(value, 10);
+    setPacksNumber(numberValue);
+  };
+
+  const handleCreate = async () => {
+    const productData: Product = {
+        packsNumber,
+        packageType,
+        isArchived,
+        description,
+    }
+    await createProduct(productData);
+    navigate('/');
+  }
 
   return (
     <form className="productsForm">
@@ -23,7 +54,7 @@ function ProductsForm({ formType } : FormProps) {
                 type="number"
                 id="packsNumber"
                 value={packsNumber}
-                onChange={(e) => setPacksNumber(e.target.value)}
+                onChange={handlePacksNumberChange}
                 required
             />
         </div>
@@ -60,10 +91,11 @@ function ProductsForm({ formType } : FormProps) {
         </div>
 
         <div className={`buttonBox ${formType === 'redact' ? 'buttonBoxRedact' : 'buttonBoxCreate'}`}>
-            {formType === 'redact' && <Button text={'Удалить'} style={'red'} func={() => {}}/>}
+            {formType === 'redact' && <Button text={'Удалить'} style={'red'} func={() => setIsPopupOpen(true)}/>}
             <Button text={'Отмена'} style={'black'} func={() => {navigate('/')}}/>
-            <Button text={'Сохранить'} style={'yellow'} func={() => {}}/>
+            <Button text={'Сохранить'} style={'yellow'} func={() => {handleCreate()}}/>
         </div>
+        {isPopupOpen === true && <Popup funcDelete={() => handleDelete()} funcBack={() => setIsPopupOpen(false)}/>}
     </form>
   );
 }
