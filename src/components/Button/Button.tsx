@@ -11,6 +11,7 @@ function Button({ text, style, func }: ButtonProps) {
     <button 
       className={`button ${style}`}
       onClick={() => func()}
+      type='button'
     >
       { text }
     </button>

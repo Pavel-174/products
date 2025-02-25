@@ -1,8 +1,12 @@
 import './ProductRedactor.scss';
+import MainHeader from '../../components/MainHeader/MainHeader';
+import ProductsForm from '../../components/ProductsForm/ProductsForm';
 
 function ProductRedactor() {
   return (
-    <div>
+    <div className='productRedactor'>
+      <MainHeader text={"Создание типа продукции"} />
+      <ProductsForm formType={'redact'}/>
     </div>
   );
 }

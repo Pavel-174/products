@@ -1,0 +1,66 @@
+.productsForm {
+    .formGroup {
+        width: 691px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 40px 0 36px 0;
+  
+      label {
+        padding-top: 7px;
+        min-height: 22px;
+        margin: 0;
+        font-family: Montserrat;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 21.94px;
+        letter-spacing: 0%;
+      }
+
+      input[type='number'],
+      input[type='text'] {
+        height: 36px;
+      }
+  
+      input[type='number'],
+      input[type='text'],
+      textarea {
+        width: 500px;
+        font-family: Montserrat;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19.5px;
+        letter-spacing: 0%;
+        border: 1px solid #AAAAAA;
+        border-radius: 6px;
+      }
+  
+      textarea {
+        resize: vertical;
+        min-height: 95px;
+      }
+  
+      input[type='checkbox'] {
+        margin-right: 453px;
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+      }
+    }
+
+    .buttonBox {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      
+      gap: 24px;
+
+      &.buttonBoxRedact {
+        padding-right: 121px;
+      }
+
+      &.buttonBoxCreate {
+        padding-right: 210px;
+      }
+    }
+}
