@@ -101,7 +101,10 @@ function ProductList() {
               </thead>
               <tbody>
                 {products.length > 0 ? (
-                  products.map((product: Product, index: string) => (
+                  products
+                  .slice()
+                  .reverse()
+                  .map((product: Product, index: string) => (
                     <tr key={product.id}>
                       <td>
                         <span>{index + 1}</span>
