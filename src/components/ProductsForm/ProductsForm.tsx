@@ -48,7 +48,7 @@ function ProductsForm({ formType } : FormProps) {
   return (
     <form className="productsForm">
       <div className="formGroup">
-        <label htmlFor="packsNumber">Кол-во пачек *</label>
+        <label htmlFor="packsNumber">Кол-во пачек <span>*</span> </label>
         <input
           type="number"
           id="packsNumber"
@@ -59,7 +59,7 @@ function ProductsForm({ formType } : FormProps) {
       </div>
 
       <div className="formGroup">
-        <label htmlFor="packageType">Тип упаковки *</label>
+        <label htmlFor="packageType">Тип упаковки <span>*</span> </label>
         <select
           id="packageType"
           value={packageType}
