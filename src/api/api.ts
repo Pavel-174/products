@@ -19,21 +19,28 @@ export async function getProducts(
 
 export async function deleteProduct(
   productTypeId: string,
+  func: () => void
 ) {
   try {
     const response = await axios.delete(`${baseURL}/productTypes/${productTypeId}`);
+
+    func();
   } catch (err) {
     console.log(err);
   }
 }
 
-export async function createProduct(productData: Product) {
+export async function createProduct(
+  productData: Product, 
+  navigate: () => void
+) {
   try {
     const response = await axios.post(`${baseURL}/productTypes`, productData, {
       headers: {
         'Content-Type': 'application/json',
       },
     });
+    navigate();
   } catch (err) {
     console.log(err);
   }

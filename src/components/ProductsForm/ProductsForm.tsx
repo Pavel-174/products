@@ -24,8 +24,11 @@ function ProductsForm({ formType } : FormProps) {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
   const handleDelete = async () => {
-    await deleteProduct(productInfo.id);
-    navigate('/');
+    try {
+        await deleteProduct(productInfo.id, () => navigate('/'));
+    } catch (err) {
+        console.log(err)
+    }
   }
 
   const handlePacksNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,15 +38,14 @@ function ProductsForm({ formType } : FormProps) {
     setPacksNumber(numberValue);
   };
 
-  const handleCreate = async () => {
+  const handleCreate = () => {
     const productData: Product = {
         packsNumber,
         packageType,
         isArchived,
         description,
     }
-    await createProduct(productData);
-    navigate('/');
+    createProduct(productData, () => navigate('/'));
   }
 
   return (
@@ -61,13 +63,15 @@ function ProductsForm({ formType } : FormProps) {
 
         <div className="formGroup">
             <label htmlFor="packageType">Тип упаковки *</label>
-            <input
-                type="text"
+            <select
                 id="packageType"
                 value={packageType}
                 onChange={(e) => setPackageType(e.target.value)}
-                required
-            />
+            >
+                <option value=""></option>
+                <option value="компрессия">компрессия</option>
+                <option value="некомпрессия">некомпрессия</option>
+            </select>
         </div>
 
         <div className="formGroup">

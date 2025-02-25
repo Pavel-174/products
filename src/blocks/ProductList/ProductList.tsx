@@ -52,9 +52,13 @@ function ProductList() {
     setId('');
   }
 
-  const handleDelete = async (id: string) => {
-    await deleteProduct(id);
-    dispatch(setProducts(products.filter((product: { id: string; }) => product.id !== id)));
+  const handleDelete = (id: string) => {
+    const addProduct = () => {
+      dispatch(setProducts(products.filter((product: { id: string; }) => product.id !== id)));
+      closeDeletePopup();
+    };
+
+    deleteProduct(id, () => addProduct());
   }
 
   const openEditPage = (product: Product) => {
