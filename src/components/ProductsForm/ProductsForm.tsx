@@ -22,6 +22,7 @@ function ProductsForm({ formType } : FormProps) {
   const [isArchived, setIsArchived] = useState<boolean>(formType === 'redact' ? productInfo.isArchived : false);
   const [description, setDescription] = useState<string>(formType === 'redact' ? productInfo.description : '');
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const productData: Product = {
     packsNumber,
@@ -110,7 +111,7 @@ function ProductsForm({ formType } : FormProps) {
           <Button
             text={'Сохранить'}
             style={'yellow'}
-            func={() => { editProduct(productInfo.id,productData, () => navigate('/')) }}
+            func={() => {(packsNumber == 0 || '') || (packageType == '') ? setError(true) : editProduct(productInfo.id,productData, () => navigate('/')) }}
           />
         }
 
@@ -118,9 +119,12 @@ function ProductsForm({ formType } : FormProps) {
           <Button
             text={'Создать'}
             style={'yellow'}
-            func={() => { createProduct(productData, () => navigate('/')) }}
+            func={() => {(packsNumber == 0 || '') || (packageType == '') ? setError(true) : createProduct(productData, () => navigate('/')) }}
           />
         }
+      </div>
+      <div className='errorBox'>
+        {error === true && <span>Заполните обязательные поля!</span>}
       </div>
       {isPopupOpen === true && <Popup funcDelete={() => handleDelete()} funcBack={ () => setIsPopupOpen(false) } />}
     </form>

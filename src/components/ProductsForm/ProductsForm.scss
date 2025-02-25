@@ -69,4 +69,19 @@
         padding-right: 210px;
       }
     }
+
+    .errorBox {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+
+
+      span {
+        color: #C30000;
+        font-family: Montserrat;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 21.94px;
+      }
+    }
 }
