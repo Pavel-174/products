@@ -1,8 +1,10 @@
 import './ProductCreator.scss';
+import MainHeader from '../../components/MainHeader/MainHeader';
 
 function ProductCreator() {
   return (
-    <div>
+    <div className='productCreator'>
+      <MainHeader text={"Создание типа продукции"} />
     </div>
   );
 }

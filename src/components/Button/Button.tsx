@@ -12,7 +12,7 @@ function Button({ text, style, func }: ButtonProps) {
       className={`button ${style}`}
       onClick={() => func()}
     >
-      {text}
+      { text }
     </button>
   );
 }

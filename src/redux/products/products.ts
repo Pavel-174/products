@@ -1,38 +1,5 @@
-// import { createSlice } from '@reduxjs/toolkit'
-
-// const products = createSlice({
-// 	name: 'products',
-// 	initialState: {
-// 		products: [],
-// 	},
-// 	reducers: {
-// 		setProducts(state, action) {
-// 			state.products = action.payload
-// 		},
-// 	}
-// })
-
-// export default products.reducer
-
-// export const { 
-// 	setProducts, 
-// } = products.actions
-
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface Product {
-  id: string;
-  packsNumber: number;
-  packageType: string;
-  isArchived: boolean;
-  description: string;
-  createdAt: number;
-}
-
-interface ProductsState {
-  products: Product[];
-}
+import { ProductsState, Product } from '../../types/types';
 
 const initialState: ProductsState = {
   products: [],

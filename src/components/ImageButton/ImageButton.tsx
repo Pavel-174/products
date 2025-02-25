@@ -12,7 +12,7 @@ function ImageButton({ image, alt, func }: ButtonProps) {
       className='imageButton'
       onClick={() => func()}
     >
-      <img src={image} alt={alt}/>
+      <img src={ image } alt={ alt }/>
     </button>
   );
 }

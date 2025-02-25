@@ -1,16 +1,20 @@
 /* eslint-disable react/style-prop-object */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import MainHeader from '../../components/MainHeader/MainHeader';
 import Button from '../../components/Button/Button';
 import ImageButton from '../../components/ImageButton/ImageButton';
+import Popup from '../../components/Popup/Popup';
+import Tooltip from '../../components/Tooltip/Tooltip';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../api/api';
+import { getProducts, deleteProduct } from '../../api/api';
 import { timestampToDate } from '../../utils/support';
+import { setProducts } from '../../redux/products/products';
 import './ProductList.scss';
 import bin from '../../images/bin.png';
 import info from '../../images/info.png';
-import edit from '../../images/edit.png'
+import edit from '../../images/edit.png';
+import { Product } from '../../types/types';
 
 
 function ProductList() {
@@ -19,12 +23,37 @@ function ProductList() {
 
   const { products } = useSelector((state: any) => state.products);
 
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
+  const [id, setId] = useState<string>("");
+
   useEffect(() => {
     getProducts(dispatch);
-  }, []);
+  }, [dispatch]);
 
-  const handleDelete = (id: string) => {
+  const openDeletePopup = (id: string) => {
+    setIsPopupOpen(true);
+    setId(id);
+  }
 
+  const closeDeletePopup = () => {
+    setIsPopupOpen(false);
+    setId('');
+  }
+
+  const openTooltip = (id: string) => {
+    setIsTooltipVisible(true);
+    setId(id);
+  }
+
+  const closeTooltip = () => {
+    setIsTooltipVisible(false);
+    setId('');
+  }
+
+  const handleDelete = async (id: string) => {
+    await deleteProduct(id);
+    dispatch(setProducts(products.filter((product: { id: string; }) => product.id !== id)));
   }
 
   return (
@@ -62,7 +91,7 @@ function ProductList() {
               </thead>
               <tbody>
                 {products.length > 0 ? (
-                  products.map((product: any, index: string) => (
+                  products.map((product: Product, index: string) => (
                     <tr key={product.id}>
                       <td>
                         <span>{index + 1}</span>
@@ -80,12 +109,14 @@ function ProductList() {
                         <span>{product.isArchived === true ? "Архив" : "Активно"}</span>
                       </td>
                       <td>
-                        <ImageButton image={info} alt={'Информация'} func={() => {}} />
+                        <ImageButton image={info} alt={'Информация'} func={() => {isTooltipVisible === true ? closeTooltip() : openTooltip(product.id)}} />
+                        {(isTooltipVisible === true && id === product.id) && <Tooltip text={product.description ? product.description : 'Нет информации'}/>}
                       </td>
                       <td>
                         <div className='buttonBox'>
                           <ImageButton image={edit} alt={'Редактировать'} func={() => navigate(`/edit/${product.id}`)} />
-                          <ImageButton image={bin} alt={'Удалить'} func={() => handleDelete(product.id)} />
+                          <ImageButton image={bin} alt={'Удалить'} func={() => openDeletePopup(product.id)} />
+                          {/*  */}
                         </div>
                       </td>
                     </tr>
@@ -98,6 +129,7 @@ function ProductList() {
               </tbody>
           </table>
         </div>
+        {isPopupOpen === true && <Popup funcDelete={() => handleDelete(id)} funcBack={() => closeDeletePopup()}/>}
     </div>
   );
 }

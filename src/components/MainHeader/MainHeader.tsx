@@ -6,7 +6,7 @@ interface ButtonProps {
 
 function MainHeader({ text }: ButtonProps) {
   return (
-    <h1 className='header'>{text}</h1>
+    <h1 className='header'>{ text }</h1>
   );
 }
 
