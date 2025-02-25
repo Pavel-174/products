@@ -45,3 +45,20 @@ export async function createProduct(
     console.log(err);
   }
 }
+
+export async function editProduct(
+  id: string,
+  productData: Product, 
+  navigate: () => void,
+) {
+  try {
+    const response = await axios.patch(`${baseURL}/productTypes/${id}`, productData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    navigate();
+  } catch (err) {
+    console.log(err);
+  }
+}
