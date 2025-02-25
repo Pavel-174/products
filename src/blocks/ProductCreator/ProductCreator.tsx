@@ -2,11 +2,15 @@ import './ProductCreator.scss';
 import MainHeader from '../../components/MainHeader/MainHeader';
 import ProductsForm from '../../components/ProductsForm/ProductsForm';
 
-function ProductCreator() {
+interface FormProps {
+  formType: string;
+}
+
+function ProductCreator({ formType } : FormProps) {
   return (
     <div className='productCreator'>
-      <MainHeader text={"Создание типа продукции"} />
-      <ProductsForm formType={'create'}/>
+      <MainHeader text={formType === 'create' ? "Создание типа продукции" : "Создание типа продукции"} />
+      <ProductsForm formType={ formType }/>
     </div>
   );
 }
